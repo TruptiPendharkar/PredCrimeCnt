@@ -1,0 +1,114 @@
+{% extends "index.html"%}
+{% block title %}Prediction{% endblock %}
+{% block content%}
+<h2>Select a date you want to predict Crime for</h2>
+
+<script>
+  var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+   function date() {
+       var input = document.getElementById("d1");
+       var date = new Date(input.value);
+       var weekday = date.getDay();
+       
+       var output = document.getElementById("output");
+    //  output.text = weekdays[weekday];
+      output.value=weekdays[weekday]
+      console.log(output.text)
+
+   }
+    //  output.nodeValue=weekdays[weekday]
+    //  console.log(output.nodeValue)
+    function sub(){
+      var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      var input = document.getElementById("d1");
+      var date=new Date(input.value)
+      var day=date.getDate();
+      var wdd=date.getDay();
+      var month=date.getMonth()+1;
+      var yr=date.getFullYear();
+      var temp=32;
+      var input2=document.getElementById("place");
+      var dist=input2.value;
+      var diction={
+        'avg_temp': 30,
+         'Day': day,
+         'Month': month,
+         'Year': yr,
+         'PdDistrict_CENTRAL': 0,
+         'PdDistrict_INGLESIDE': 0,
+         'PdDistrict_MISSION': 0,
+         'PdDistrict_NORTHERN': 0,
+         'PdDistrict_PARK': 0,
+         'PdDistrict_RICHMOND': 0,
+         'PdDistrict_SOUTHERN': 0,
+         'PdDistrict_TARAVAL': 0,
+         'PdDistrict_TENDERLOIN': 0,
+         'DayOfWeek_Monday': 0,
+         'DayOfWeek_Saturday': 0,
+         'DayOfWeek_Sunday': 0,
+         'DayOfWeek_Thursday': 0,
+         'DayOfWeek_Tuesday': 0,
+         'DayOfWeek_Wednesday': 0,
+         'NFL_Game_Day_1': 0,
+      }
+      var distInput= JSON.stringify(dist);
+      var nustr1 = new String();
+      nustr1 = distInput.toString().replace(/"/g, "");
+      var pdDist="PdDistrict_"+nustr1.toUpperCase();
+      var wdInput=JSON.stringify(weekdays[wdd]);
+      var nustr2=new String();
+      nustr2 = wdInput.toString().replace(/"/g,"");
+      var wdday="DayOfWeek_"+nustr2;
+
+      console.log(pdDist)
+      console.log(wdday)
+      diction[pdDist]=1;
+      diction[wdday]=1;
+      let fin=JSON.stringify(diction);
+      // let fin=diction;
+      // document.write(fin)
+      var jdat=document.getElementById("jdata");
+      jdat.value=fin;
+    }
+
+</script>
+
+
+
+<form action="#" method="POST">
+  <label for="date">Crimes on the day:</label>
+  <p><input type="date" name="cd" id="d1" ></p>
+
+  <input type="button" value="weekday" onclick="date()"/>
+  <input type="text" id="output" name="wd">
+
+  <!-- <p> <input type="submit" value="submit"></p> -->
+  
+
+<br>
+<br>
+<br>
+<!-- <form action="#" method="POST"> -->
+  <label for="cars">Select a District you want to know crimes for:</label>
+  <select name="policeDepartmentDistrict" id="place" >
+    <option value="central">CENTRAL</option>
+    <option value="ingleside">INGLESIDE</option>
+    <option value="mission">MISSION</option>
+    <option value="northern">NORTHERN</option>
+    <option value="park">PARK</option>
+    <option value="richmond">RICHMOND</option>
+    <option value="southern">SOUTHERN</option>
+    <option value="taraval">TARAVAL</option>
+    <option value="tenderloin">TENDERLOIN</option>
+
+
+
+  </select>
+  <input type="button" value="completed" onclick="sub()" >
+  <input type="hidden" name="jd" id="jdata" >
+  <br><br>
+  <input type="submit" value="Submit" >
+</form>
+
+{% endblock %}
